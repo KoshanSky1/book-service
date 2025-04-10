@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Список всех книг</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="d-flex justify-content-end mb-3">
+    <a href="/login" class="btn btn-primary">Выйти</a>
+</div>
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Список всех книг</h1>
+</div>
+
+<div style="display: flex; gap: 20px;">
+    <div style="flex: 2;">
+        <form th:action="@{/api/books}" method="get" class="mb-4">
+            <h2 class="h2">Установите необходимые фильтры:</h2>
+            <div class="row">
+                <div class="col">
+                    <input type="text" class="form-control" name="year" th:value="${year}" placeholder="Год">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="title" th:value="${title}" placeholder="Название">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" name="brand" th:value="${brand}" placeholder="Издательство">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Фильтровать</button>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Код поставщика</th>
+                <th scope="col">Название</th>
+                <th scope="col">Год издания</th>
+                <th scope="col">Издательство</th>
+                <th scope="col">Номер склада</th>
+                <th scope="col">Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${allBooks}">
+                <td th:utext="${book.vendorCode}"></td>
+                <td>
+                    <a th:href="@{/api/books/{id}(id=${book.id})}" th:utext="${book.title}"></a>
+                </td>
+                <td th:utext="${book.year}"></td>
+                <td th:utext="${book.brand}"></td>
+                <td th:utext="${book.stock}"></td>
+                <td th:utext="${book.price}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage != null and currentPage > 0}">
+                    <a class="page-link"
+                       th:href="@{/api/books(year=${year}, title=${title}, brand=${brand}, page=${currentPage - 1}, size=${currentSize})}">
+                        Предыдущая
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${pageNumber == currentPage} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/api/books(year=${year}, title=${title}, brand=${brand}, page=${pageNumber}, size=${currentSize})}"
+                       th:text="${pageNumber + 1}">
+                    </a>
+                </li>
+
+                <li class="page-item" th:if="${currentPage != null and currentPage < totalPages - 1}">
+                    <a class="page-link"
+                       th:href="@{/api/books(year=${year}, title=${title}, brand=${brand}, page=${currentPage + 1}, size=${currentSize})}">
+                        Следующая
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div style="flex: 1; padding-top: 105px;">
+        <form th:action="@{/api/books}" method="post" style="max-width: 400px;">
+            <div>
+                <h2 class="h2">Создание новой книги:</h2>
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="vendorCode" th:value="${vendorCode}" placeholder="Введите код поставщика" type="text" class="form-control">
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="title" th:value="${title}" placeholder="Введите название книги" type="text" class="form-control">
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="year" th:value="${year}" placeholder="Введите год" type="text" class="form-control">
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="brand" th:value="${brand}" placeholder="Введите издательство" type="text" class="form-control">
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="stock" th:value="${stock}" placeholder="Введите номер склада" type="text" class="form-control">
+            </div>
+            <div style="margin-bottom: 5px;">
+                <input name="price" th:value="${price}" placeholder="Введите стоимость" type="text" class="form-control">
+            </div>
+            <div style="margin-top: 10px;">
+                <button type="submit" class="btn btn-primary">Создать</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

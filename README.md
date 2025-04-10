@@ -5,7 +5,7 @@
 
 •	Собрать _jar_ файл при помощи maven командой `mvn clean install`.
 
-•	Запустить микросервис командой `java -jar book-service-1.0.0-SNAPSHOT.jar`.
+•	Запустить приложение командой `java -jar book-service-1.0.0-SNAPSHOT.jar`.
 
 •	Приложение будет доступно по адресу: _http://localhost:8080_.
 

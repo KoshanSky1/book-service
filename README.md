@@ -1,12 +1,20 @@
 # book-service
-Инструкция по запуску
+## Запустить приложение можно двумя способами.
+### Первый способ:
+•	Предварительно создать БД _POSTGRES_ не ниже версии 15 с именем "_books-db_".
 
-   • Предварительно создать БД POSTGRES не ниже версии 15 с именем "books-db".
+•	Собрать _jar_ файл при помощи maven командой `mvn clean install`.
 
-   • Поменять в application.yaml spring.datasource.username и spring.datasource.password на свои логин и пароль от PostgreSQL.
+•	Запустить приложение командой `java -jar book-service-1.0.0-SNAPSHOT.jar`.
 
-   • Скомпилировать jar файл с помощью maven командой `mvn clean install`.
+•	Приложение будет доступно по адресу: _http://localhost:8080_.
 
-   • Запустить приложение командой java `java -jar book-service-1.0.0-SNAPSHOT.jar`.
-   
-Для теста in-memory добавлен пользователь Admin, пароль root.
+### Второй способ:
+•	Установить и запустить _Docker_.
+
+•	Запустить контейнер командой `docker-compose up`.
+
+•	Приложение будет доступно по адресу: _http://localhost:8080_.
+
+
+#### Для теста in-memory добавлен пользователь Admin, пароль root.
